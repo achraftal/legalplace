@@ -25,10 +25,10 @@ We have recently signed a supplier of "Dafalgan". This requires an update to our
 
 ## Instructions
 
-- [ ] Create a clone from this repository
-- [ ] Implement the required feature
-- [ ] Push the clone to your own repository when satisfied
-- [ ] Send us the link and tell us approximatively how much time you spent on this assignment
+- [x] Create a clone from this repository
+- [x] Implement the required feature
+- [x] Push the clone to your own repository when satisfied
+- [x] Send us the link and tell us approximatively how much time you spent on this assignment
 
 You are encouraged to refactor the existing code before adding your own, as you would do if this was a real task in real life. We strongly recommend that you write tests to help you during this process.
 
@@ -45,3 +45,13 @@ To make sure that you will not break anything in the existing code, we added the
 ```sh
 yarn start
 ```
+
+## My approach
+
+I spent between 1h15 to 1h30 on this assignment.
+
+Before implementing the Dafalgan feature, I took some time to refactor the existing code. The original `updateBenefitValue` method was a deeply nested chain of conditionals that was hard to read and even harder to extend.
+
+I went with the Strategy pattern. Each drug type has its own class that encapsulates its update logic. `Pharmacy` simply picks the right strategy based on the drug name and delegates the work to it.
+
+I also wrote unit tests for both `Drug` and `Pharmacy` to make sure nothing broke during the refactor and to cover the new Dafalgan behavior.
