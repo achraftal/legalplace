@@ -1,58 +1,37 @@
+import { NormalDrugStrategy } from "./strategies/NormalDrugStrategy.js";
+import { HerbalTeaStrategy } from "./strategies/HerbalTeaStrategy.js";
+import { MagicPillStrategy } from "./strategies/MagicPillStrategy.js";
+import { FervexStrategy } from "./strategies/FervexStrategy.js";
+
+const DRUG_NAMES = {
+  HERBAL_TEA: "Herbal Tea",
+  MAGIC_PILL: "Magic Pill",
+  FERVEX: "Fervex",
+};
+
 export class Pharmacy {
   constructor(drugs = []) {
     this.drugs = drugs;
   }
-  updateBenefitValue() {
-    for (var i = 0; i < this.drugs.length; i++) {
-      if (
-        this.drugs[i].name != "Herbal Tea" &&
-        this.drugs[i].name != "Fervex"
-      ) {
-        if (this.drugs[i].benefit > 0) {
-          if (this.drugs[i].name != "Magic Pill") {
-            this.drugs[i].benefit = this.drugs[i].benefit - 1;
-          }
-        }
-      } else {
-        if (this.drugs[i].benefit < 50) {
-          this.drugs[i].benefit = this.drugs[i].benefit + 1;
-          if (this.drugs[i].name == "Fervex") {
-            if (this.drugs[i].expiresIn < 11) {
-              if (this.drugs[i].benefit < 50) {
-                this.drugs[i].benefit = this.drugs[i].benefit + 1;
-              }
-            }
-            if (this.drugs[i].expiresIn < 6) {
-              if (this.drugs[i].benefit < 50) {
-                this.drugs[i].benefit = this.drugs[i].benefit + 1;
-              }
-            }
-          }
-        }
-      }
-      if (this.drugs[i].name != "Magic Pill") {
-        this.drugs[i].expiresIn = this.drugs[i].expiresIn - 1;
-      }
-      if (this.drugs[i].expiresIn < 0) {
-        if (this.drugs[i].name != "Herbal Tea") {
-          if (this.drugs[i].name != "Fervex") {
-            if (this.drugs[i].benefit > 0) {
-              if (this.drugs[i].name != "Magic Pill") {
-                this.drugs[i].benefit = this.drugs[i].benefit - 1;
-              }
-            }
-          } else {
-            this.drugs[i].benefit =
-              this.drugs[i].benefit - this.drugs[i].benefit;
-          }
-        } else {
-          if (this.drugs[i].benefit < 50) {
-            this.drugs[i].benefit = this.drugs[i].benefit + 1;
-          }
-        }
-      }
-    }
 
+  updateBenefitValue() {
+    for (const drug of this.drugs) {
+      const strategy = this.getDrugStrategy(drug);
+      strategy.update(drug);
+    }
     return this.drugs;
+  }
+
+  getDrugStrategy(drug) {
+    switch (drug.name) {
+      case DRUG_NAMES.HERBAL_TEA:
+        return new HerbalTeaStrategy();
+      case DRUG_NAMES.FERVEX:
+        return new FervexStrategy();
+      case DRUG_NAMES.MAGIC_PILL:
+        return new MagicPillStrategy();
+      default:
+        return new NormalDrugStrategy();
+    }
   }
 }
