@@ -2,11 +2,13 @@ import { NormalDrugStrategy } from "./strategies/NormalDrugStrategy.js";
 import { HerbalTeaStrategy } from "./strategies/HerbalTeaStrategy.js";
 import { MagicPillStrategy } from "./strategies/MagicPillStrategy.js";
 import { FervexStrategy } from "./strategies/FervexStrategy.js";
+import { DafalganStrategy } from "./strategies/DafalganStrategy.js";
 
 const DRUG_NAMES = {
   HERBAL_TEA: "Herbal Tea",
   MAGIC_PILL: "Magic Pill",
   FERVEX: "Fervex",
+  DAFALGAN: "Dafalgan",
 };
 
 export class Pharmacy {
@@ -30,6 +32,8 @@ export class Pharmacy {
         return new FervexStrategy();
       case DRUG_NAMES.MAGIC_PILL:
         return new MagicPillStrategy();
+      case DRUG_NAMES.DAFALGAN:
+        return new DafalganStrategy();
       default:
         return new NormalDrugStrategy();
     }

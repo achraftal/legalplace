@@ -93,4 +93,27 @@ describe("Pharmacy", () => {
       expect(result[0].benefit).toBe(50);
     });
   });
+
+  describe("Dafalgan", () => {
+    it("degrades benefit twice as fast before expiry", () => {
+      const result = new Pharmacy([
+        new Drug("Dafalgan", 10, 20),
+      ]).updateBenefitValue();
+      expect(result).toEqual([new Drug("Dafalgan", 9, 18)]);
+    });
+
+    it("degrades benefit four times as fast after expiry", () => {
+      const result = new Pharmacy([
+        new Drug("Dafalgan", 0, 20),
+      ]).updateBenefitValue();
+      expect(result).toEqual([new Drug("Dafalgan", -1, 16)]);
+    });
+
+    it("benefit never goes below 0", () => {
+      const result = new Pharmacy([
+        new Drug("Dafalgan", 5, 1),
+      ]).updateBenefitValue();
+      expect(result[0].benefit).toBe(0);
+    });
+  });
 });
