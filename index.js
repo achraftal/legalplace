@@ -1,4 +1,5 @@
-import { Drug, Pharmacy } from "./pharmacy.js";
+import { Drug } from "./src/drug.js";
+import { Pharmacy } from "./src/pharmacy.js";
 
 import fs from "fs";
 
